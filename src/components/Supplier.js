@@ -1,12 +1,14 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
+
 import TutorialDataService from "../services/TutorialService";
 
 const Tutorial = props => {
   const initialTutorialState = {
     id: null,
-    title: "",
-    description: "",
-    published: false
+    name: "",
+    postalAddress: {},
+    phoneNumber: "",
+    email: ""
   };
   const [currentTutorial, setCurrentTutorial] = useState(initialTutorialState);
   const [message, setMessage] = useState("");
@@ -14,8 +16,8 @@ const Tutorial = props => {
   const getTutorial = id => {
     TutorialDataService.get(id)
       .then(response => {
+        console.log(response);
         setCurrentTutorial(response.data);
-        console.log(response.data);
       })
       .catch(e => {
         console.log(e);
@@ -34,9 +36,10 @@ const Tutorial = props => {
   const updatePublished = status => {
     var data = {
       id: currentTutorial.id,
-      title: currentTutorial.title,
-      description: currentTutorial.description,
-      published: status
+      name: currentTutorial.name,
+      postalAddress: currentTutorial.postalAddress,
+      phoneNumber: currentTutorial.phoneNumber,
+      email: currentTutorial.email
     };
 
     TutorialDataService.update(currentTutorial.id, data)
@@ -76,36 +79,65 @@ const Tutorial = props => {
     <div>
       {currentTutorial ? (
         <div className="edit-form">
-          <h4>Tutorial</h4>
+          <h4>Dobavljač</h4>
           <form>
             <div className="form-group">
-              <label htmlFor="title">Title</label>
+              <label htmlFor="name">Naziv</label>
               <input
                 type="text"
                 className="form-control"
-                id="title"
-                name="title"
-                value={currentTutorial.title}
+                id="name"
+                name="name"
+                value={currentTutorial.name}
                 onChange={handleInputChange}
               />
             </div>
             <div className="form-group">
-              <label htmlFor="description">Description</label>
+              <label htmlFor="phoneNumber">Broj Telefona</label>
               <input
                 type="text"
                 className="form-control"
-                id="description"
-                name="description"
-                value={currentTutorial.description}
+                id="phoneNumber"
+                name="phoneNumber"
+                value={currentTutorial.phoneNumber}
                 onChange={handleInputChange}
               />
             </div>
 
             <div className="form-group">
-              <label>
-                <strong>Status:</strong>
-              </label>
-              {currentTutorial.published ? "Published" : "Pending"}
+              <label htmlFor="city">Grad</label>
+              <input
+                type="text"
+                className="form-control"
+                id="city"
+                name="city"
+                value={currentTutorial.postalAddress.city}
+                onChange={handleInputChange}
+              />
+            </div>
+
+            <div className="form-group">
+              <label htmlFor="postalCode">Poštanski kod</label>
+              <input
+                type="text"
+                className="form-control"
+                id="postalCode"
+                name="postalCode"
+                value={currentTutorial.postalAddress.postalCode}
+                onChange={handleInputChange}
+              />
+            </div>
+
+            <div className="form-group">
+              <label htmlFor="streetName">Ulica</label>
+              <input
+                type="text"
+                className="form-control"
+                id="streetName"
+                name="streetName"
+                value={currentTutorial.postalAddress.streetName}
+                onChange={handleInputChange}
+              />
             </div>
           </form>
 

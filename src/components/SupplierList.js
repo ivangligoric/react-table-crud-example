@@ -1,4 +1,5 @@
-import React, { useState, useEffect, useMemo, useRef } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
+
 import TutorialDataService from "../services/TutorialService";
 import { useTable } from "react-table";
 
@@ -21,6 +22,7 @@ const TutorialsList = (props) => {
   const retrieveTutorials = () => {
     TutorialDataService.getAll()
       .then((response) => {
+        console.log(response);
         setTutorials(response.data);
       })
       .catch((e) => {
@@ -56,7 +58,7 @@ const TutorialsList = (props) => {
   const openTutorial = (rowIndex) => {
     const id = tutorialsRef.current[rowIndex].id;
 
-    props.history.push("/tutorials/" + id);
+    props.history.push("/supplier/" + id);
   };
 
   const deleteTutorial = (rowIndex) => {
@@ -64,7 +66,7 @@ const TutorialsList = (props) => {
 
     TutorialDataService.remove(id)
       .then((response) => {
-        props.history.push("/tutorials");
+        props.history.push("/supplier");
 
         let newTutorials = [...tutorialsRef.current];
         newTutorials.splice(rowIndex, 1);
@@ -79,19 +81,17 @@ const TutorialsList = (props) => {
   const columns = useMemo(
     () => [
       {
-        Header: "Title",
-        accessor: "title",
+        Header: "Name",
+        accessor: "name",
       },
       {
-        Header: "Description",
-        accessor: "description",
+        Header: "Phone Number",
+        accessor: "phoneNumber",
       },
       {
-        Header: "Status",
-        accessor: "published",
-        Cell: (props) => {
-          return props.value ? "Published" : "Pending";
-        },
+        Header: "email",
+        accessor: "email",
+        
       },
       {
         Header: "Actions",
