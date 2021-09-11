@@ -5,10 +5,10 @@ import "./App.css";
 
 import { Link, Route, Switch } from "react-router-dom";
 
-import AddTutorial from "./components/AddTutorial";
+import AddSupplier from "./components/AddSupplier";
 import React from "react";
-import Tutorial from "./components/Tutorial";
-import TutorialsList from "./components/TutorialsList";
+import Supplier from "./components/Supplier";
+import SuppliersList from "./components/SupplierList";
 
 function App() {
   return (
@@ -33,9 +33,9 @@ function App() {
 
       <div className="container mt-3">
         <Switch>
-          <Route exact path={["/", "/supplier"]} component={TutorialsList} />
-          <Route exact path="/add" component={AddTutorial} />
-          <Route path="/supplier/:id" component={Tutorial} />
+          <Route exact path={["/", "/supplier"]} component={SuppliersList} />
+          <Route exact path="/add" component={AddSupplier} />
+          <Route path="/supplier/:id" component={Supplier} />
         </Switch>
       </div>
     </div>

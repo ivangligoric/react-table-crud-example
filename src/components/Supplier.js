@@ -1,23 +1,23 @@
 import React, { useEffect, useState } from "react";
 
-import TutorialDataService from "../services/TutorialService";
+import SupplierDataService from "../services/SupplierService";
 
-const Tutorial = props => {
-  const initialTutorialState = {
+const Supplier = props => {
+  const initialSupplierState = {
     id: null,
     name: "",
     postalAddress: {},
     phoneNumber: "",
     email: ""
   };
-  const [currentTutorial, setCurrentTutorial] = useState(initialTutorialState);
+  const [currentSupplier, setCurrentSupplier] = useState(initialSupplierState);
   const [message, setMessage] = useState("");
 
-  const getTutorial = id => {
-    TutorialDataService.get(id)
+  const getSupplier = id => {
+    SupplierDataService.get(id)
       .then(response => {
         console.log(response);
-        setCurrentTutorial(response.data);
+        setCurrentSupplier(response.data);
       })
       .catch(e => {
         console.log(e);
@@ -25,26 +25,26 @@ const Tutorial = props => {
   };
 
   useEffect(() => {
-    getTutorial(props.match.params.id);
+    getSupplier(props.match.params.id);
   }, [props.match.params.id]);
 
   const handleInputChange = event => {
     const { name, value } = event.target;
-    setCurrentTutorial({ ...currentTutorial, [name]: value });
+    setCurrentSupplier({ ...currentSupplier, [name]: value });
   };
 
   const updatePublished = status => {
     var data = {
-      id: currentTutorial.id,
-      name: currentTutorial.name,
-      postalAddress: currentTutorial.postalAddress,
-      phoneNumber: currentTutorial.phoneNumber,
-      email: currentTutorial.email
+      id: currentSupplier.id,
+      name: currentSupplier.name,
+      postalAddress: currentSupplier.postalAddress,
+      phoneNumber: currentSupplier.phoneNumber,
+      email: currentSupplier.email
     };
 
-    TutorialDataService.update(currentTutorial.id, data)
+    SupplierDataService.update(currentSupplier.id, data)
       .then(response => {
-        setCurrentTutorial({ ...currentTutorial, published: status });
+        setCurrentSupplier({ ...currentSupplier, published: status });
         console.log(response.data);
         setMessage("The status was updated successfully!");
       })
@@ -53,22 +53,22 @@ const Tutorial = props => {
       });
   };
 
-  const updateTutorial = () => {
-    TutorialDataService.update(currentTutorial.id, currentTutorial)
+  const updateSupplier = () => {
+    SupplierDataService.update(currentSupplier.id, currentSupplier)
       .then(response => {
         console.log(response.data);
-        setMessage("The tutorial was updated successfully!");
+        setMessage("The Supplier was updated successfully!");
       })
       .catch(e => {
         console.log(e);
       });
   };
 
-  const deleteTutorial = () => {
-    TutorialDataService.remove(currentTutorial.id)
+  const deleteSupplier = () => {
+    SupplierDataService.remove(currentSupplier.id)
       .then(response => {
         console.log(response.data);
-        props.history.push("/tutorials");
+        props.history.push("/Suppliers");
       })
       .catch(e => {
         console.log(e);
@@ -77,7 +77,7 @@ const Tutorial = props => {
 
   return (
     <div>
-      {currentTutorial ? (
+      {currentSupplier ? (
         <div className="edit-form">
           <h4>Dobavljač</h4>
           <form>
@@ -88,7 +88,7 @@ const Tutorial = props => {
                 className="form-control"
                 id="name"
                 name="name"
-                value={currentTutorial.name}
+                value={currentSupplier.name}
                 onChange={handleInputChange}
               />
             </div>
@@ -99,7 +99,7 @@ const Tutorial = props => {
                 className="form-control"
                 id="phoneNumber"
                 name="phoneNumber"
-                value={currentTutorial.phoneNumber}
+                value={currentSupplier.phoneNumber}
                 onChange={handleInputChange}
               />
             </div>
@@ -111,7 +111,7 @@ const Tutorial = props => {
                 className="form-control"
                 id="city"
                 name="city"
-                value={currentTutorial.postalAddress.city}
+                value={currentSupplier.postalAddress.city}
                 onChange={handleInputChange}
               />
             </div>
@@ -123,7 +123,7 @@ const Tutorial = props => {
                 className="form-control"
                 id="postalCode"
                 name="postalCode"
-                value={currentTutorial.postalAddress.postalCode}
+                value={currentSupplier.postalAddress.postalCode}
                 onChange={handleInputChange}
               />
             </div>
@@ -135,13 +135,13 @@ const Tutorial = props => {
                 className="form-control"
                 id="streetName"
                 name="streetName"
-                value={currentTutorial.postalAddress.streetName}
+                value={currentSupplier.postalAddress.streetName}
                 onChange={handleInputChange}
               />
             </div>
           </form>
 
-          {currentTutorial.published ? (
+          {currentSupplier.published ? (
             <button
               className="badge badge-primary mr-2"
               onClick={() => updatePublished(false)}
@@ -157,14 +157,14 @@ const Tutorial = props => {
             </button>
           )}
 
-          <button className="badge badge-danger mr-2" onClick={deleteTutorial}>
+          <button className="badge badge-danger mr-2" onClick={deleteSupplier}>
             Delete
           </button>
 
           <button
             type="submit"
             className="badge badge-success"
-            onClick={updateTutorial}
+            onClick={updateSupplier}
           >
             Update
           </button>
@@ -173,11 +173,11 @@ const Tutorial = props => {
       ) : (
         <div>
           <br />
-          <p>Please click on a Tutorial...</p>
+          <p>Please click on a Supplier...</p>
         </div>
       )}
     </div>
   );
 };
 
-export default Tutorial;
+export default Supplier;

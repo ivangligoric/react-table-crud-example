@@ -1,17 +1,17 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
 
-import TutorialDataService from "../services/TutorialService";
+import SupplierDataService from "../services/SupplierService";
 import { useTable } from "react-table";
 
-const TutorialsList = (props) => {
-  const [tutorials, setTutorials] = useState([]);
+const SuppliersList = (props) => {
+  const [Suppliers, setSuppliers] = useState([]);
   const [searchTitle, setSearchTitle] = useState("");
-  const tutorialsRef = useRef();
+  const SuppliersRef = useRef();
 
-  tutorialsRef.current = tutorials;
+  SuppliersRef.current = Suppliers;
 
   useEffect(() => {
-    retrieveTutorials();
+    retrieveSuppliers();
   }, []);
 
   const onChangeSearchTitle = (e) => {
@@ -19,11 +19,11 @@ const TutorialsList = (props) => {
     setSearchTitle(searchTitle);
   };
 
-  const retrieveTutorials = () => {
-    TutorialDataService.getAll()
+  const retrieveSuppliers = () => {
+    SupplierDataService.getAll()
       .then((response) => {
         console.log(response);
-        setTutorials(response.data);
+        setSuppliers(response.data);
       })
       .catch((e) => {
         console.log(e);
@@ -31,11 +31,11 @@ const TutorialsList = (props) => {
   };
 
   const refreshList = () => {
-    retrieveTutorials();
+    retrieveSuppliers();
   };
 
-  const removeAllTutorials = () => {
-    TutorialDataService.removeAll()
+  const removeAllSuppliers = () => {
+    SupplierDataService.removeAll()
       .then((response) => {
         console.log(response.data);
         refreshList();
@@ -46,32 +46,32 @@ const TutorialsList = (props) => {
   };
 
   const findByTitle = () => {
-    TutorialDataService.findByTitle(searchTitle)
+    SupplierDataService.findByTitle(searchTitle)
       .then((response) => {
-        setTutorials(response.data);
+        setSuppliers(response.data);
       })
       .catch((e) => {
         console.log(e);
       });
   };
 
-  const openTutorial = (rowIndex) => {
-    const id = tutorialsRef.current[rowIndex].id;
+  const openSupplier = (rowIndex) => {
+    const id = SuppliersRef.current[rowIndex].id;
 
     props.history.push("/supplier/" + id);
   };
 
-  const deleteTutorial = (rowIndex) => {
-    const id = tutorialsRef.current[rowIndex].id;
+  const deleteSupplier = (rowIndex) => {
+    const id = SuppliersRef.current[rowIndex].id;
 
-    TutorialDataService.remove(id)
+    SupplierDataService.remove(id)
       .then((response) => {
         props.history.push("/supplier");
 
-        let newTutorials = [...tutorialsRef.current];
-        newTutorials.splice(rowIndex, 1);
+        let newSuppliers = [...SuppliersRef.current];
+        newSuppliers.splice(rowIndex, 1);
 
-        setTutorials(newTutorials);
+        setSuppliers(newSuppliers);
       })
       .catch((e) => {
         console.log(e);
@@ -100,11 +100,11 @@ const TutorialsList = (props) => {
           const rowIdx = props.row.id;
           return (
             <div>
-              <span onClick={() => openTutorial(rowIdx)}>
+              <span onClick={() => openSupplier(rowIdx)}>
                 <i className="far fa-edit action mr-2"></i>
               </span>
 
-              <span onClick={() => deleteTutorial(rowIdx)}>
+              <span onClick={() => deleteSupplier(rowIdx)}>
                 <i className="fas fa-trash action"></i>
               </span>
             </div>
@@ -123,7 +123,7 @@ const TutorialsList = (props) => {
     prepareRow,
   } = useTable({
     columns,
-    data: tutorials,
+    data: Suppliers,
   });
 
   return (
@@ -182,7 +182,7 @@ const TutorialsList = (props) => {
       </div>
 
       <div className="col-md-8">
-        <button className="btn btn-sm btn-danger" onClick={removeAllTutorials}>
+        <button className="btn btn-sm btn-danger" onClick={removeAllSuppliers}>
           Remove All
         </button>
       </div>
@@ -190,4 +190,4 @@ const TutorialsList = (props) => {
   );
 };
 
-export default TutorialsList;
+export default SuppliersList;

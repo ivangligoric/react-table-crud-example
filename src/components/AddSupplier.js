@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 
-import TutorialDataService from "../services/TutorialService";
+import SupplierDataService from "../services/SupplierService";
 
-const AddTutorial = () => {
-  const initialTutorialState = {
+const AddSupplier = () => {
+  const initialSupplierState = {
     id: null,
     name: "",
     postalAddress: {
@@ -14,27 +14,27 @@ const AddTutorial = () => {
     phoneNumber: "",
     email: ""
   };
-  const [tutorial, setTutorial] = useState(initialTutorialState);
+  const [Supplier, setSupplier] = useState(initialSupplierState);
   const [submitted, setSubmitted] = useState(false);
 
   const handleInputChange = event => {
-    console.log(tutorial.postalAddress.city);
+    console.log(Supplier.postalAddress.city);
     const { name, value } = event.target;
-    setTutorial({ ...tutorial, [name]: value });
+    setSupplier({ ...Supplier, [name]: value });
   };
 
-  const saveTutorial = () => {
+  const saveSupplier = () => {
     var data = {
-      title: tutorial.title,
-      name: tutorial.name,
-      postalAddress: tutorial.postalAddress,
-      email: tutorial.email,
-      phoneNumber: tutorial.phoneNumber
+      title: Supplier.title,
+      name: Supplier.name,
+      postalAddress: Supplier.postalAddress,
+      email: Supplier.email,
+      phoneNumber: Supplier.phoneNumber
     };
 
-    TutorialDataService.create(data)
+    SupplierDataService.create(data)
       .then(response => {
-        setTutorial({
+        setSupplier({
           id: response.data.id,
           name: response.data.name,
           postalAddress: response.data.postalAddress,
@@ -49,8 +49,8 @@ const AddTutorial = () => {
       });
   };
 
-  const newTutorial = () => {
-    setTutorial(initialTutorialState);
+  const newSupplier = () => {
+    setSupplier(initialSupplierState);
     setSubmitted(false);
   };
 
@@ -59,7 +59,7 @@ const AddTutorial = () => {
       {submitted ? (
         <div>
           <h4>You submitted successfully!</h4>
-          <button className="btn btn-success" onClick={newTutorial}>
+          <button className="btn btn-success" onClick={newSupplier}>
             Add
           </button>
         </div>
@@ -72,7 +72,7 @@ const AddTutorial = () => {
                 className="form-control"
                 id="name"
                 name="name"
-                value={tutorial.name}
+                value={Supplier.name}
                 onChange={handleInputChange}
               />
             </div>
@@ -83,7 +83,7 @@ const AddTutorial = () => {
                 className="form-control"
                 id="phoneNumber"
                 name="phoneNumber"
-                value={tutorial.phoneNumber}
+                value={Supplier.phoneNumber}
                 onChange={handleInputChange}
               />
             </div>
@@ -95,7 +95,7 @@ const AddTutorial = () => {
                 className="form-control"
                 id="email"
                 name="email"
-                value={tutorial.email}
+                value={Supplier.email}
                 onChange={handleInputChange}
               />
             </div>
@@ -107,7 +107,7 @@ const AddTutorial = () => {
                 className="form-control"
                 id="city"
                 name="city"
-                value={tutorial.postalAddress.city}
+                value={Supplier.postalAddress.city}
                 onChange={handleInputChange}
               />
             </div>
@@ -119,7 +119,7 @@ const AddTutorial = () => {
                 className="form-control"
                 id="postalCode"
                 name="postalCode"
-                value={tutorial.postalAddress.postalCode}
+                value={Supplier.postalAddress.postalCode}
                 onChange={handleInputChange}
               />
             </div>
@@ -131,12 +131,12 @@ const AddTutorial = () => {
                 className="form-control"
                 id="streetName"
                 name="streetName"
-                value={tutorial.postalAddress.streetName}
+                value={Supplier.postalAddress.streetName}
                 onChange={handleInputChange}
               />
             </div>
 
-          <button onClick={saveTutorial} className="btn btn-success">
+          <button onClick={saveSupplier} className="btn btn-success">
             Submit
           </button>
         </div>
@@ -145,4 +145,4 @@ const AddTutorial = () => {
   );
 };
 
-export default AddTutorial;
+export default AddSupplier;
